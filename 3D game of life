@@ -1,0 +1,171 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace GoL
+{
+    class Program
+    {
+        static int[,] YourCode(int[,,] stateOfLife)
+        {
+            int[,,] stateOfLife2 = stateOfLife;
+            //Your code goes here.
+            //Do not modify anything outside of this function.
+            for (int z = 0; z < stateOfLife.GetLength(2); z++)
+            {
+                for (int x = 0; x < stateOfLife.GetLength(0); x++)
+                {
+                    for (int y = 0; y < stateOfLife.GetLength(1); y++)
+                    {
+                        int liveNeighbours = 0;
+                        if (y < 4)
+                        {
+                            if (stateOfLife[x, y + 1, z] == 1)
+                            {
+                                liveNeighbours++;
+                            }
+                            if (x < 4)
+                            {
+                                if (stateOfLife[x + 1, y + 1,z] == 1)
+                                {
+                                    liveNeighbours++;
+                                }
+                            }
+                            if (z < 4)
+                            {
+                                if (stateOfLife[x, y + 1, z + 1] == 1)
+                                {
+                                    liveNeighbours++;
+                                }
+                                if (x < 4)
+                                {
+                                    if (stateOfLife[x + 1, y + 1, z + 1] == 1)
+                                    {
+                                        liveNeighbours++;
+                                    }
+                                }
+                            } 
+                            if (x > 0)
+                            {
+                                if (stateOfLife[x - 1, y + 1, z] == 1)
+                                {
+                                    liveNeighbours++;
+                                }
+                            }
+                            if (z > 0)
+                            {
+                                if (stateOfLife[x - 1, y + 1, z - 1] == 1)
+                                {
+                                    liveNeighbours++;
+                                }
+                            }
+                        }
+                        if (y > 0)
+                        {
+                            if (stateOfLife[x, y - 1] == 1)
+                            {
+                                liveNeighbours++;
+                            }
+                            if (x < 4)
+                            {
+                                if (stateOfLife[x + 1, y - 1] == 1)
+                                {
+                                    liveNeighbours++;
+                                }
+                            }
+                            if (x > 0)
+                            {
+                                if (stateOfLife[x - 1, y - 1] == 1)
+                                {
+                                    liveNeighbours++;
+                                }
+                            }
+                        }
+                        if (x < 4)
+                        {
+                            if (stateOfLife[x + 1, y] == 1)
+                            {
+                                liveNeighbours++;
+                            }
+                        }
+                        if (x > 0)
+                        {
+                            if (stateOfLife[x - 1, y] == 1)
+                            {
+                                liveNeighbours++;
+                            }
+                        }
+                        if (stateOfLife[x, y, z] == 1)
+                        {
+                            if (liveNeighbours < 4)
+                            {
+                                stateOfLife2[x, y,z] = 0;
+                            }
+                            else if (liveNeighbours > 9)
+                            {
+                                stateOfLife2[x, y,z] = 0;
+                            }
+                        }
+                        else if (stateOfLife[x, y,z] == 0)
+                        {
+                            if (liveNeighbours > 4)
+                            {
+                                if (liveNeighbours < 10)
+                                {
+                                    stateOfLife2[x, y, z] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Console.WriteLine("");
+            stateOfLife = stateOfLife2;
+            return stateOfLife;
+
+        }
+
+
+        static void Main(string[] args)
+        {
+            Random r = new Random();
+            int[,,] stateOfLife = new int[5,5,5];
+            for (int x = 0; x < stateOfLife.GetLength(0); x++)
+            {
+                for (int y = 0; y < stateOfLife.GetLength(1); y++)
+                {
+                    stateOfLife[x, y,z] = r.Next(0, 2);
+                }
+            }
+
+            Console.WriteLine("Initial State");
+            PrintLife(stateOfLife);
+
+            for (int i = 0; i < 5; i++)
+            {
+                stateOfLife = YourCode(stateOfLife);
+                Console.WriteLine("State " + (i + 1).ToString());
+                PrintLife(stateOfLife);
+            }
+            Console.ReadLine();
+        }
+
+        static void PrintLife(int[,,] stateOfLife)
+        {
+            for (int z = 0; z < stateOfLife.GetLength(2); z++)
+            {
+                for (int x = 0; x < stateOfLife.GetLength(0); x++)
+                {
+                    for (int y = 0; y < stateOfLife.GetLength(1); y++)
+                    {
+                        Console.Write(stateOfLife[x, y]);
+                    }
+                    Console.WriteLine("");
+                }
+            }
+        }
+    }
+}
+
+
